@@ -1,6 +1,7 @@
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.annotations.Test;
+
 import java.sql.Timestamp;
 
 import java.util.concurrent.TimeUnit;
@@ -19,9 +20,9 @@ public class Register {
 
         driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
 
-            Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-            Long number = timestamp.getTime();
-            String email = number + "@mail.ru";
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+        Long number = timestamp.getTime();
+        String email = number + "@mail.ru";
 
         WebElement createAcc = driver.findElement(By.xpath("//input[@name='email_create']"));
         createAcc.sendKeys(String.valueOf(email), Keys.ENTER);
