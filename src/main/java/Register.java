@@ -14,7 +14,6 @@ public class Register {
 
     @Test
     public void register() {
-
         WebDriverManager.chromedriver().setup();
         WebDriver driver = new ChromeDriver();
         WebDriverWait wait = new WebDriverWait(driver, 15);
@@ -36,7 +35,6 @@ public class Register {
         authentificationPage.enterEmail(email);
 
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='uniform-id_gender1']")));
-        ;
 
         formPage.chooseTitle();
         formPage.enterFirstName();
