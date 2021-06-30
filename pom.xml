@@ -10,7 +10,8 @@
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
-        <webdriver.path>C:\\Tools\\chromedriver.exe</webdriver.path>
+        <webdriver.path>C:\Tools\chromedriver.exe</webdriver.path>
+        <exec.mainClass>main.java.Register</exec.mainClass>
     </properties>
     <dependencies>
         <dependency>
