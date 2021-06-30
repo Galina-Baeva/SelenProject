@@ -1,21 +1,28 @@
+import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 import java.sql.Timestamp;
 import java.util.concurrent.TimeUnit;
+
 public class Register {
 
     @Test
     public void register() {
 
-        System.setProperty("webdriver.chrome.driver", "C:\\Tools\\chromedriver.exe");
+        WebDriverManager.chromedriver().setup();
         WebDriver driver = new ChromeDriver();
+        WebDriverWait wait = new WebDriverWait(driver, 15);
         driver.get("http://automationpractice.com");
 
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("login")));
         WebElement signIn = driver.findElement(By.className("login"));
         signIn.click();
 
-        driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@name='email_create']")));;
 
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
         Long number = timestamp.getTime();
@@ -24,7 +31,7 @@ public class Register {
         WebElement createAcc = driver.findElement(By.xpath("//input[@name='email_create']"));
         createAcc.sendKeys(String.valueOf(email), Keys.ENTER);
 
-        driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+        driver.manage().timeouts().implicitlyWait(8, TimeUnit.SECONDS);
 
         WebElement formTitle = driver.findElement(By.xpath("//div[@id='uniform-id_gender1']"));
         formTitle.click();
@@ -73,14 +80,10 @@ public class Register {
         WebElement formRegister = driver.findElement(By.xpath("//button[@name='submitAccount']"));
         formRegister.click();
 
-        try {
-            driver.findElement(By.xpath("//h1[contains(text(), 'My account')]"));
-        } catch (NoSuchElementException e) {
-            e.printStackTrace();
-        }
-        finally {
-            System.out.println("Account not found");
-        }
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h1[contains(text(), 'My account')]")));
+
+        String n = driver.getTitle();
+        Assert.assertEquals(n, "My account - My Store", "Registration failed");
 
         driver.close();
     }
