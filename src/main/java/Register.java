@@ -81,6 +81,9 @@ public class Register {
         } catch (NoSuchElementException e) {
             e.printStackTrace();
         }
+        finally {
+            System.out.println("Account not found");
+        }
 
         driver.close();
     }
