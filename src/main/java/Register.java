@@ -1,11 +1,8 @@
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.annotations.Test;
-
 import java.sql.Timestamp;
-
 import java.util.concurrent.TimeUnit;
-
 public class Register {
 
     @Test
