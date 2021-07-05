@@ -3,6 +3,7 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.*;
 import org.testng.Assert;
+import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -14,6 +15,11 @@ public class Register {
     HomePage homePage;
     AuthentificationPage authentificationPage;
     FormPage formPage;
+
+    @BeforeTest
+    public void testSetUp(){
+
+    }
 
     @Test
     public void register() throws FileNotFoundException {

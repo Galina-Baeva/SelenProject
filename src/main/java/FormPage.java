@@ -1,13 +1,12 @@
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
-public class FormPage {
-    private WebDriver driver;
-    private WebDriverWait wait;
+public class FormPage extends BasePage {
 
+    public FormPage(WebDriver driver) {
+        super(driver);
+    }
     @FindBy(xpath = "//div[@id='uniform-id_gender1']")
     private WebElement formTitle;
 
@@ -50,11 +49,6 @@ public class FormPage {
     @FindBy(xpath = "//button[@name='submitAccount']")
     private WebElement formRegister;
 
-    public FormPage (WebDriver driver) {
-        this.driver = driver;
-        this.wait = new WebDriverWait( driver, 20 );
-        PageFactory.initElements(driver, this);
-    }
     public void chooseTitle() {
         formTitle.click();
     }
