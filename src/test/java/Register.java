@@ -25,9 +25,7 @@ public class Register {
     @Parameters({"urlaccountpage"})
     @Test
     public void register() throws IOException, ParseException {
-        logger.info("");
-        logger.warning("");
-
+        logger.info("Test starts");
         WebDriverManager.chromedriver().setup();
         WebDriver driver = new ChromeDriver();
         WebDriverWait wait = new WebDriverWait(driver, 15);
@@ -59,9 +57,11 @@ public class Register {
                 Data.date, Data.month, Data.year, Data.address, Data.city, Data.id_state,
                 Data.zipCode, Data.country, Data.phoneNumber);
         formPage.submitForm();
+        logger.info("Personal information set");
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h1[contains(text(), 'My account')]")));
         String n = driver.getTitle();
         Assert.assertEquals(n, "My account - My Store", "Registration failed");
+        logger.info("Created account with an email: " + email);
         accountPage.editPersonalInfo();
         wait.until(ExpectedConditions.visibilityOf(personalInformationPage.personalTitle));
         String name = personalInformationPage.personalFirstName.getAttribute("value");
@@ -73,6 +73,7 @@ public class Register {
         personalInformationPage.confirmPassword(Data.passwrd);
         personalInformationPage.changePassword(Data.newPasswrd);
         personalInformationPage.saveChanges();
+        logger.info("Password changed");
         accountPage.viewMyAcc();
         accountPage.editAddressInfo();
         addressInformationPage.updateAddress();
@@ -80,5 +81,7 @@ public class Register {
         Assert.assertEquals(currentAddress, Data.address, "Address is incorrect");
         addressInformationPage.submitAddressChanges();
         driver.close();
+        logger.info("Test - success");
     }
+
 }
