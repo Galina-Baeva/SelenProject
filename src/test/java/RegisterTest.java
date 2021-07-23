@@ -4,30 +4,35 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.*;
 import org.testng.Assert;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
+import pages.*;
+import testData.DataReader;
+
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.Properties;
 import java.util.logging.Logger;
 
-public class Register {
+public class RegisterTest {
     HomePage homePage;
     AuthentificationPage authentificationPage;
     FormPage formPage;
     AddressInformationPage addressInformationPage;
     PersonalInformationPage personalInformationPage;
     AccountPage accountPage;
+    DataReader data;
 
-    private static final Logger logger = Logger.getLogger((Register.class.getName()));
+    private static final Logger logger = Logger.getLogger((RegisterTest.class.getName()));
 
     Timestamp timestamp = new Timestamp(System.currentTimeMillis());
     Long number = timestamp.getTime();
     String email = number + "@mail.ru";
 
-   // @Parameters({"urlaccountpage"})
+    @Parameters({"path"})
     @Test
-    public void register() throws IOException, ParseException {
+    public void register(String path) throws IOException, ParseException {
         logger.info("Test starts");
         WebDriverManager.chromedriver().setup();
         WebDriver driver = new ChromeDriver();
@@ -35,6 +40,10 @@ public class Register {
         homePage = new HomePage(driver);
         authentificationPage = new AuthentificationPage(driver);
         formPage = new FormPage(driver);
+        addressInformationPage = new AddressInformationPage(driver);
+        personalInformationPage = new PersonalInformationPage(driver);
+        accountPage = new AccountPage(driver);
+        data = new DataReader(path);
 
         Properties property = new Properties();
         property.load(new FileInputStream("config.properties"));
@@ -42,16 +51,16 @@ public class Register {
         String url = property.getProperty("url");
 
         driver.get(url);
-        wait.until(ExpectedConditions.visibilityOf(homePage.signIn));
+        wait.until(ExpectedConditions.visibilityOf(homePage.getSignIn()));
 
         homePage.clickToSignIn();
-        wait.until(ExpectedConditions.visibilityOf(authentificationPage.createAcc));
+        wait.until(ExpectedConditions.visibilityOf(authentificationPage.getCreateAcc()));
 
         authentificationPage.enterEmail(email);
-        wait.until(ExpectedConditions.visibilityOf(formPage.formTitle));
-        formPage.setPersonalInformation(Data.name, Data.lastName, Data.passwrd,
-                Data.date, Data.month, Data.year, Data.address, Data.city, Data.id_state,
-                Data.zipCode, Data.country, Data.phoneNumber);
+        wait.until(ExpectedConditions.visibilityOf(formPage.getFormTitle()));
+        formPage.setPersonalInformation(data.name, data.lastName, data.passwrd,
+                data.date, data.month, data.year, data.address, data.city, data.id_state,
+                data.zipCode, data.country, data.phoneNumber);
         formPage.submitForm();
         logger.info("Personal information set");
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h1[contains(text(), 'My account')]")));
@@ -62,13 +71,15 @@ public class Register {
         logger.info("Test - success");
     }
 
-    @Test(dependsOnMethods="register")
+    @Test(dependsOnMethods = "register")
     public void accountVerification() throws IOException, ParseException {
         logger.info("Test starts");
         WebDriverManager.chromedriver().setup();
         WebDriver driver = new ChromeDriver();
         WebDriverWait wait = new WebDriverWait(driver, 15);
+        homePage = new HomePage(driver);
         authentificationPage = new AuthentificationPage(driver);
+        formPage = new FormPage(driver);
         addressInformationPage = new AddressInformationPage(driver);
         personalInformationPage = new PersonalInformationPage(driver);
         accountPage = new AccountPage(driver);
@@ -80,24 +91,24 @@ public class Register {
         String urlaccountpage = property.getProperty("urlaccountpage");
         driver.get(url + urlaccountpage);
         authentificationPage.enterCurrentEmail(email);
-        authentificationPage.enterCurrentPassword(Data.passwrd);
+        authentificationPage.enterCurrentPassword(DataReader.passwrd);
         accountPage.editPersonalInfo();
-        wait.until(ExpectedConditions.visibilityOf(personalInformationPage.personalTitle));
-        String name = personalInformationPage.personalFirstName.getAttribute("value");
-        Assert.assertEquals(name, Data.name.toString(), "Name is incorrect");
-        String lastName = personalInformationPage.personalLastName.getAttribute("value");
-        Assert.assertEquals(lastName, Data.lastName.toString(), "Lastname is incorrect");
-        String eMail = personalInformationPage.personalEmail.getAttribute("value");
+        wait.until(ExpectedConditions.visibilityOf(personalInformationPage.getPersonalTitle()));
+        String name = personalInformationPage.getPersonalFirstName().getAttribute("value");
+        Assert.assertEquals(name, DataReader.name.toString(), "Name is incorrect");
+        String lastName = personalInformationPage.getPersonalLastName().getAttribute("value");
+        Assert.assertEquals(lastName, DataReader.lastName.toString(), "Lastname is incorrect");
+        String eMail = personalInformationPage.getPersonalEmail().getAttribute("value");
         Assert.assertEquals(eMail, email, "E-mail is incorrect");
-        personalInformationPage.confirmPassword(Data.passwrd);
-        personalInformationPage.changePassword(Data.newPasswrd);
+        personalInformationPage.confirmPassword(DataReader.passwrd);
+        personalInformationPage.changePassword(DataReader.newPasswrd);
         personalInformationPage.saveChanges();
         logger.info("Password changed");
         accountPage.viewMyAcc();
         accountPage.editAddressInfo();
         addressInformationPage.updateAddress();
-        String currentAddress = addressInformationPage.addressAddress.getAttribute("value");
-        Assert.assertEquals(currentAddress, Data.address, "Address is incorrect");
+        String currentAddress = addressInformationPage.getAddressAddress().getAttribute("value");
+        Assert.assertEquals(currentAddress, DataReader.address, "Address is incorrect");
         addressInformationPage.submitAddressChanges();
         driver.close();
         logger.info("Test - success");
