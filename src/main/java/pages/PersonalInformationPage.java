@@ -1,3 +1,5 @@
+package pages;
+
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -41,6 +43,22 @@ public class PersonalInformationPage extends BasePage {
     @FindBy(xpath = "//button[@name='submitIdentity']")
     protected WebElement personalSave;
 
+    public WebElement getPersonalTitle() {
+        return personalTitle;
+    }
+
+    public WebElement getPersonalFirstName() {
+        return personalFirstName;
+    }
+
+    public WebElement getPersonalLastName() {
+        return personalLastName;
+    }
+
+    public WebElement getPersonalEmail() {
+        return personalEmail;
+    }
+
     public void changeTitle() {
         personalTitle.click();
     }
@@ -76,6 +94,7 @@ public class PersonalInformationPage extends BasePage {
         Select dropdownMenu = new Select(personalYear);
         dropdownMenu.selectByValue(year);
     }
+
     public void saveChanges() {
         personalSave.click();
     }

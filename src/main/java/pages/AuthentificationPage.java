@@ -1,3 +1,5 @@
+package pages;
+
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -18,6 +20,10 @@ public class AuthentificationPage extends BasePage {
     @FindBy(xpath = "//input[@name='passwd']")
     protected WebElement passwordAcc;
 
+    public WebElement getCreateAcc() {
+        return createAcc;
+    }
+
     public void enterEmail(String email) {
         createAcc.sendKeys(String.valueOf(email), Keys.ENTER);
     }
@@ -25,7 +31,8 @@ public class AuthentificationPage extends BasePage {
     public void enterCurrentEmail(String email) {
         emailAcc.sendKeys(String.valueOf(email));
     }
-    public void enterCurrentPassword (String password) {
+
+    public void enterCurrentPassword(String password) {
         passwordAcc.sendKeys(String.valueOf(password), Keys.ENTER);
     }
 }

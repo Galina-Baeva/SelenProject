@@ -1,3 +1,5 @@
+package pages;
+
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -33,6 +35,10 @@ public class AddressInformationPage extends BasePage {
     @FindBy(xpath = "//button[@name='submitAddress']")
     protected WebElement submitAddress;
 
+    public WebElement getAddressAddress() {
+        return addressAddress;
+    }
+
     public void updateAddress() {
         updateButton.click();
     }
@@ -64,6 +70,7 @@ public class AddressInformationPage extends BasePage {
     public void enterPhoneNumber(String phoneNumber) {
         addressPhone.sendKeys(phoneNumber);
     }
+
     public void submitAddressChanges() {
         submitAddress.click();
     }

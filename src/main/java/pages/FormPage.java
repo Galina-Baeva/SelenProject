@@ -1,12 +1,16 @@
+package pages;
+
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.Select;
 
+
 public class FormPage extends BasePage {
     public FormPage(WebDriver driver) {
         super(driver);
     }
+
     @FindBy(xpath = "//div[@id='uniform-id_gender1']")
     protected WebElement formTitle;
 
@@ -49,6 +53,10 @@ public class FormPage extends BasePage {
     @FindBy(xpath = "//button[@name='submitAccount']")
     protected WebElement formRegister;
 
+    public WebElement getFormTitle() {
+        return formTitle;
+    }
+
     public void setPersonalInformation(String name, String lastName, String passwrd,
                                        String date, String month, String year, String address,
                                        String city, String id_state, String zipCode,
@@ -74,6 +82,7 @@ public class FormPage extends BasePage {
         addressCountry.click();
         addressPhone.sendKeys(phoneNumber);
     }
+
     public void submitForm() {
         formRegister.click();
     }
