@@ -31,7 +31,4 @@ public class Data {
     protected static String year = (String) jsonObject.get("year");
     protected static String country = (String) jsonObject.get("country");
 
-
-
-
 }
