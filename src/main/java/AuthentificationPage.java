@@ -12,8 +12,21 @@ public class AuthentificationPage extends BasePage {
     @FindBy(xpath = "//input[@name='email_create']")
     protected WebElement createAcc;
 
+    @FindBy(xpath = "//input[@name='email']")
+    protected WebElement emailAcc;
+
+    @FindBy(xpath = "//input[@name='passwd']")
+    protected WebElement passwordAcc;
+
     public void enterEmail(String email) {
         createAcc.sendKeys(String.valueOf(email), Keys.ENTER);
+    }
+
+    public void enterCurrentEmail(String email) {
+        emailAcc.sendKeys(String.valueOf(email));
+    }
+    public void enterCurrentPassword (String password) {
+        passwordAcc.sendKeys(String.valueOf(password), Keys.ENTER);
     }
 }
 

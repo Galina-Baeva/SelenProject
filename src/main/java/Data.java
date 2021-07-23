@@ -30,4 +30,5 @@ public class Data {
     protected static String month = (String) jsonObject.get("month");
     protected static String year = (String) jsonObject.get("year");
     protected static String country = (String) jsonObject.get("country");
+
 }
