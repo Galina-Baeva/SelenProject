@@ -7,8 +7,9 @@ public class HomePage extends BasePage{
     public HomePage(WebDriver driver) {
         super(driver);
     }
+
     @FindBy(className = "login")
-    private WebElement signIn;
+    public WebElement signIn;
 
     public void clickToSignIn() {
         signIn.click();
