@@ -18,6 +18,9 @@ public class AccountPage extends BasePage {
     @FindBy(xpath = "//*[@title='View my customer account']")
     protected WebElement myAcc;
 
+    @FindBy(xpath = "//*[@title='Log me out']")
+    protected WebElement logMeOut;
+
     public void editPersonalInfo() {
         personalInfo.click();
     }
@@ -28,6 +31,10 @@ public class AccountPage extends BasePage {
 
     public void viewMyAcc() {
         myAcc.click();
+    }
+
+    public void logOut() {
+        logMeOut.click();
     }
 
 }

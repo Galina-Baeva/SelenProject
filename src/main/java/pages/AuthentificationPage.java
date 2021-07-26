@@ -20,6 +20,13 @@ public class AuthentificationPage extends BasePage {
     @FindBy(xpath = "//input[@name='passwd']")
     protected WebElement passwordAcc;
 
+    @FindBy(xpath = "//*[@class='alert alert-danger']")
+    protected WebElement alert;
+
+    public WebElement getAlert() {
+        return alert;
+    }
+
     public WebElement getCreateAcc() {
         return createAcc;
     }
