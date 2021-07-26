@@ -4,8 +4,7 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.*;
 import org.testng.Assert;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 import pages.*;
 import testData.DataReader;
 
@@ -18,37 +17,59 @@ import java.util.logging.Logger;
 public class RegisterTest {
     HomePage homePage;
     AuthentificationPage authentificationPage;
-    FormPage formPage;
+    RegistrationFormPage registrationFormPage;
     AddressInformationPage addressInformationPage;
     PersonalInformationPage personalInformationPage;
     AccountPage accountPage;
     DataReader data;
+    WebDriver driver;
+    WebDriverWait wait;
+    Timestamp timestamp;
+    Long number;
+    String email;
+    FileInputStream fileInputStream;
+    Properties property;
+    String url;
+    String urlAccountPage;
 
-    private static final Logger logger = Logger.getLogger((RegisterTest.class.getName()));
+    private static final Logger logger = Logger.getLogger(RegisterTest.class.getName());
 
-    Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-    Long number = timestamp.getTime();
-    String email = number + "@mail.ru";
+    @BeforeClass
+    public void setUp() throws IOException {
+        WebDriverManager.chromedriver().setup();
+        driver = new ChromeDriver();
+        wait = new WebDriverWait(driver, 15);
+        timestamp = new Timestamp(System.currentTimeMillis());
+        number = timestamp.getTime();
+        email = number + "@mail.ru";
+        property = new Properties();
+        fileInputStream = new FileInputStream("config.properties");
+        property.load(fileInputStream);
+        url = property.getProperty("url");
+        urlAccountPage = property.getProperty("urlaccountpage");
+    }
+
+    @AfterClass
+    public void closeDriver() {
+        driver.close();
+    }
+
+    @AfterTest
+    public void logout() {
+        accountPage.logOut();
+    }
 
     @Parameters({"path"})
     @Test
     public void register(String path) throws IOException, ParseException {
         logger.info("Test starts");
-        WebDriverManager.chromedriver().setup();
-        WebDriver driver = new ChromeDriver();
-        WebDriverWait wait = new WebDriverWait(driver, 15);
         homePage = new HomePage(driver);
         authentificationPage = new AuthentificationPage(driver);
-        formPage = new FormPage(driver);
+        registrationFormPage = new RegistrationFormPage(driver);
         addressInformationPage = new AddressInformationPage(driver);
         personalInformationPage = new PersonalInformationPage(driver);
         accountPage = new AccountPage(driver);
         data = new DataReader(path);
-
-        Properties property = new Properties();
-        property.load(new FileInputStream("config.properties"));
-
-        String url = property.getProperty("url");
 
         driver.get(url);
         wait.until(ExpectedConditions.visibilityOf(homePage.getSignIn()));
@@ -57,39 +78,30 @@ public class RegisterTest {
         wait.until(ExpectedConditions.visibilityOf(authentificationPage.getCreateAcc()));
 
         authentificationPage.enterEmail(email);
-        wait.until(ExpectedConditions.visibilityOf(formPage.getFormTitle()));
-        formPage.setPersonalInformation(data.name, data.lastName, data.passwrd,
+        wait.until(ExpectedConditions.visibilityOf(registrationFormPage.getFormTitle()));
+        registrationFormPage.setPersonalInformation(data.name, data.lastName, data.passwrd,
                 data.date, data.month, data.year, data.address, data.city, data.id_state,
                 data.zipCode, data.country, data.phoneNumber);
-        formPage.submitForm();
+        registrationFormPage.submitForm();
         logger.info("Personal information set");
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h1[contains(text(), 'My account')]")));
         String n = driver.getTitle();
         Assert.assertEquals(n, "My account - My Store", "Registration failed");
         logger.info("Created account with an email: " + email);
-        driver.close();
         logger.info("Test - success");
     }
 
     @Test(dependsOnMethods = "register")
-    public void accountVerification() throws IOException, ParseException {
+    public void accountVerification() {
         logger.info("Test starts");
-        WebDriverManager.chromedriver().setup();
-        WebDriver driver = new ChromeDriver();
-        WebDriverWait wait = new WebDriverWait(driver, 15);
         homePage = new HomePage(driver);
         authentificationPage = new AuthentificationPage(driver);
-        formPage = new FormPage(driver);
+        registrationFormPage = new RegistrationFormPage(driver);
         addressInformationPage = new AddressInformationPage(driver);
         personalInformationPage = new PersonalInformationPage(driver);
         accountPage = new AccountPage(driver);
 
-        Properties property = new Properties();
-        property.load(new FileInputStream("config.properties"));
-
-        String url = property.getProperty("url");
-        String urlaccountpage = property.getProperty("urlaccountpage");
-        driver.get(url + urlaccountpage);
+        driver.get(url + urlAccountPage);
         authentificationPage.enterCurrentEmail(email);
         authentificationPage.enterCurrentPassword(DataReader.passwrd);
         accountPage.editPersonalInfo();
@@ -110,7 +122,6 @@ public class RegisterTest {
         String currentAddress = addressInformationPage.getAddressAddress().getAttribute("value");
         Assert.assertEquals(currentAddress, DataReader.address, "Address is incorrect");
         addressInformationPage.submitAddressChanges();
-        driver.close();
         logger.info("Test - success");
     }
 }
