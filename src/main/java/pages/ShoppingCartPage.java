@@ -3,16 +3,17 @@ package pages;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 public class ShoppingCartPage extends BasePage {
     public ShoppingCartPage(WebDriver driver) {
         super(driver);
     }
 
-    @FindBy(xpath = "//a[@title='Proceed to checkout']//span")
+    @FindBy(xpath = "//a[@class='button btn btn-default standard-checkout button-medium']")
     protected WebElement checkOut;
 
-    @FindBy(xpath = "//span[contains(text(), 'Proceed to checkout')]")
+    @FindBy(xpath = "//button[@name = 'processAddress']")
     protected WebElement processAddress;
 
     @FindBy(xpath = "//input[@type='checkbox']")
@@ -36,10 +37,14 @@ public class ShoppingCartPage extends BasePage {
 
     public void proceedToCheckout() {
         checkOut.click();
+        wait.until(ExpectedConditions.visibilityOf(processAddress));
         processAddress.click();
+        wait.until(ExpectedConditions.visibilityOf(processCarrier));
         checkbox.click();
         processCarrier.click();
+        wait.until(ExpectedConditions.visibilityOf(byBank));
         byBank.click();
+        wait.until(ExpectedConditions.visibilityOf(confirmButton));
         confirmButton.click();
     }
 

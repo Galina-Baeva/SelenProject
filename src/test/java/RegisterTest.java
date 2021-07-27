@@ -83,7 +83,6 @@ public class RegisterTest {
         registrationFormPage.setPersonalInformation(data.name, data.lastName, data.passwrd,
                 data.date, data.month, data.year, data.address, data.city, data.id_state,
                 data.zipCode, data.country, data.phoneNumber);
-        registrationFormPage.submitForm();
         logger.info("Personal information set");
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h1[contains(text(), 'My account')]")));
         String n = driver.getTitle();

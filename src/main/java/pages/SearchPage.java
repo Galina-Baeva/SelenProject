@@ -3,6 +3,7 @@ package pages;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 public class SearchPage extends BasePage {
     public SearchPage(WebDriver driver) {
@@ -12,7 +13,7 @@ public class SearchPage extends BasePage {
     @FindBy(xpath = "//span[contains(text(), 'Add to cart')]")
     protected WebElement firstFoundDress;
 
-    @FindBy(xpath = "//a[@title='Proceed to checkout']//span")
+    @FindBy(xpath = "//a[@title='Proceed to checkout']")
     protected WebElement checkOut;
 
     public void chooseFirstFoundDress() {
@@ -25,6 +26,7 @@ public class SearchPage extends BasePage {
 
     public void addToCart() {
         chooseFirstFoundDress();
+        wait.until(ExpectedConditions.visibilityOf(checkOut));
         proceedToCheckout();
     }
 

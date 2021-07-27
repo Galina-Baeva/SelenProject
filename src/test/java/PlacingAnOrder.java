@@ -7,7 +7,11 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.*;
 import pages.*;
+
+import java.sql.Timestamp;
+
 import testData.DataReader;
+
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
@@ -18,10 +22,12 @@ public class PlacingAnOrder {
     AccountPage accountPage;
     SearchPage searchPage;
     ShoppingCartPage shoppingCartPage;
-    RegisterTest registerTest = new RegisterTest();
+    RegistrationFormPage registrationFormPage;
     DataReader data;
     WebDriver driver;
     WebDriverWait wait;
+    Timestamp timestamp;
+    Long number;
     String email;
     FileInputStream fileInputStream;
     Properties property;
@@ -36,6 +42,9 @@ public class PlacingAnOrder {
         WebDriverManager.chromedriver().setup();
         driver = new ChromeDriver();
         wait = new WebDriverWait(driver, 15);
+        timestamp = new Timestamp(System.currentTimeMillis());
+        number = timestamp.getTime();
+        email = number + "@mail.ru";
         property = new Properties();
         fileInputStream = new FileInputStream(prop);
         property.load(fileInputStream);
@@ -56,12 +65,16 @@ public class PlacingAnOrder {
         accountPage = new AccountPage(driver);
         searchPage = new SearchPage(driver);
         shoppingCartPage = new ShoppingCartPage(driver);
+        registrationFormPage = new RegistrationFormPage(driver);
         data = new DataReader(path);
-
         driver.get(url + urlAccountPage);
         wait.until(ExpectedConditions.visibilityOf(authentificationPage.getEmailAcc()));
-        authentificationPage.logIn(email, DataReader.passwrd);
-        logger.info("LogIn - success");
+        authentificationPage.enterEmail(email);
+        wait.until(ExpectedConditions.visibilityOf(registrationFormPage.getFormTitle()));
+        registrationFormPage.setPersonalInformation(data.name, data.lastName, data.passwrd,
+                data.date, data.month, data.year, data.address, data.city, data.id_state,
+                data.zipCode, data.country, data.phoneNumber);
+        logger.info("Registration - success");
         accountPage.searchItem(DataReader.item);
         searchPage.addToCart();
         logger.info("Item added to the cart - success");
@@ -72,7 +85,6 @@ public class PlacingAnOrder {
         boolean isExist = accountPage.findOrderTable();
         Assert.assertTrue(isExist, "Cart is empty");
         logger.info("Test - success");
-
     }
 
 }
