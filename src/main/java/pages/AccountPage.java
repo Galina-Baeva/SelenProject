@@ -1,5 +1,6 @@
 package pages;
 
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -21,6 +22,12 @@ public class AccountPage extends BasePage {
     @FindBy(xpath = "//*[@title='Log me out']")
     protected WebElement logMeOut;
 
+    @FindBy(xpath = "//input[@name='search_query']")
+    protected WebElement searchField;
+
+    @FindBy(xpath = "//table[@id='order-list']")
+    protected WebElement orderTable;
+
     public void editPersonalInfo() {
         personalInfo.click();
     }
@@ -35,6 +42,14 @@ public class AccountPage extends BasePage {
 
     public void logOut() {
         logMeOut.click();
+    }
+
+    public void searchItem(String item) {
+        searchField.sendKeys(item, Keys.ENTER);
+    }
+
+    public boolean findOrderTable() {
+        return orderTable.isDisplayed();
     }
 
 }

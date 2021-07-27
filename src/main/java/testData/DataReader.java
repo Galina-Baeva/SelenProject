@@ -21,6 +21,7 @@ public class DataReader {
     public static String month;
     public static String year;
     public static String country;
+    public static String item;
 
     public DataReader(String path) throws IOException, ParseException {
         JSONParser jsonParser = new JSONParser();
@@ -38,5 +39,6 @@ public class DataReader {
         month = (String) jsonObject.get("month");
         year = (String) jsonObject.get("year");
         country = (String) jsonObject.get("country");
+        item = (String) jsonObject.get("item");
     }
 }

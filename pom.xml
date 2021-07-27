@@ -41,6 +41,17 @@
                 <suites>pageVerification</suites>
             </properties>
         </profile>
+        <profile>
+            <id>placeAnOrder</id>
+            <activation>
+                <property>
+                    <name>testng</name>
+                </property>
+            </activation>
+            <properties>
+                <suites>placingOrder</suites>
+            </properties>
+        </profile>
     </profiles>
 
     <build>

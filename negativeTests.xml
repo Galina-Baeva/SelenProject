@@ -2,6 +2,7 @@
 <!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
 <suite name="Negative Tests">
     <parameter name="path" value="src/main/resources/testData.json"/>
+    <parameter name="prop" value="config.properties"/>
     <test verbose="2" preserve-order="true" name="SelenProject">
         <classes>
             <class name="NegativeAccountRegistration"/>

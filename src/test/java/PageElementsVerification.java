@@ -30,8 +30,9 @@ public class PageElementsVerification {
 
     private static final Logger logger = Logger.getLogger(RegisterTest.class.getName());
 
+    @Parameters({"prop"})
     @BeforeClass
-    public void setUp() throws IOException {
+    public void setUp(String prop) throws IOException {
         WebDriverManager.chromedriver().setup();
         driver = new ChromeDriver();
         wait = new WebDriverWait(driver, 10);
@@ -39,7 +40,7 @@ public class PageElementsVerification {
         number = timestamp.getTime();
         email = number + "@mail.ru";
         property = new Properties();
-        fileInputStream = new FileInputStream("config.properties");
+        fileInputStream = new FileInputStream(prop);
         property.load(fileInputStream);
         url = property.getProperty("url");
     }

@@ -23,6 +23,10 @@ public class AuthentificationPage extends BasePage {
     @FindBy(xpath = "//*[@class='alert alert-danger']")
     protected WebElement alert;
 
+    public WebElement getEmailAcc() {
+        return emailAcc;
+    }
+
     public WebElement getAlert() {
         return alert;
     }
@@ -42,5 +46,11 @@ public class AuthentificationPage extends BasePage {
     public void enterCurrentPassword(String password) {
         passwordAcc.sendKeys(String.valueOf(password), Keys.ENTER);
     }
+
+    public void logIn (String email, String password){
+        enterCurrentEmail(email);
+        enterCurrentPassword(password);
+    }
+
 }
 
