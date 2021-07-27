@@ -26,7 +26,7 @@ public class RegisterTest {
     WebDriverWait wait;
     Timestamp timestamp;
     Long number;
-    String email;
+    public static String email;
     FileInputStream fileInputStream;
     Properties property;
     String url;
@@ -34,8 +34,9 @@ public class RegisterTest {
 
     private static final Logger logger = Logger.getLogger(RegisterTest.class.getName());
 
+    @Parameters({"prop"})
     @BeforeClass
-    public void setUp() throws IOException {
+    public void setUp(String prop) throws IOException {
         WebDriverManager.chromedriver().setup();
         driver = new ChromeDriver();
         wait = new WebDriverWait(driver, 15);
@@ -43,7 +44,7 @@ public class RegisterTest {
         number = timestamp.getTime();
         email = number + "@mail.ru";
         property = new Properties();
-        fileInputStream = new FileInputStream("config.properties");
+        fileInputStream = new FileInputStream(prop);
         property.load(fileInputStream);
         url = property.getProperty("url");
         urlAccountPage = property.getProperty("urlaccountpage");
@@ -54,7 +55,7 @@ public class RegisterTest {
         driver.close();
     }
 
-    @AfterTest
+    @AfterMethod
     public void logout() {
         accountPage.logOut();
     }
@@ -91,7 +92,7 @@ public class RegisterTest {
         logger.info("Test - success");
     }
 
-    @Test(dependsOnMethods = "register")
+    @Test(dependsOnMethods = {"register"})
     public void accountVerification() {
         logger.info("Test starts");
         homePage = new HomePage(driver);
@@ -102,8 +103,8 @@ public class RegisterTest {
         accountPage = new AccountPage(driver);
 
         driver.get(url + urlAccountPage);
-        authentificationPage.enterCurrentEmail(email);
-        authentificationPage.enterCurrentPassword(DataReader.passwrd);
+        wait.until(ExpectedConditions.visibilityOf(authentificationPage.getEmailAcc()));
+        authentificationPage.logIn(email, DataReader.passwrd);
         accountPage.editPersonalInfo();
         wait.until(ExpectedConditions.visibilityOf(personalInformationPage.getPersonalTitle()));
         String name = personalInformationPage.getPersonalFirstName().getAttribute("value");
