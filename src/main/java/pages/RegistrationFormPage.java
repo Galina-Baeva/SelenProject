@@ -120,6 +120,7 @@ public class RegistrationFormPage extends BasePage {
         dropdownMenuCountry.selectByVisibleText(country);
         addressCountry.click();
         addressPhone.sendKeys(phoneNumber);
+        formRegister.click();
     }
 
     public void setPartOfPersonalInfo(String name, String lastName, String passwrd) {
