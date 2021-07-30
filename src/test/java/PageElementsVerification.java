@@ -1,6 +1,4 @@
 import io.github.bonigarcia.wdm.WebDriverManager;
-import org.checkerframework.checker.units.qual.A;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -63,8 +61,8 @@ public class PageElementsVerification {
         wait.until(ExpectedConditions.visibilityOf(authentificationPage.getCreateAcc()));
         authentificationPage.enterEmail(email);
         wait.until(ExpectedConditions.visibilityOf(registrationFormPage.getFormTitle()));
-        boolean isExist = registrationFormPage.existsElement();
-        Assert.assertTrue(isExist, "Not all elements are exist");
+        boolean elementExist = registrationFormPage.existsElement();
+        Assert.assertTrue(elementExist, "Not all elements are exist");
         logger.info("All elements are exist and displayed");
         String pageHeader = registrationFormPage.getPageHeader().getText();
         Assert.assertEquals(pageHeader, "CREATE AN ACCOUNT", "Invalid name of the page title");
