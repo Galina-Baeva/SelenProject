@@ -76,9 +76,12 @@
                     <argLine>
                         -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"
                     </argLine>
+                    <parallel>all</parallel>
+                    <threadCountSuites>4</threadCountSuites>
                     <suiteXmlFiles>
                         <!--suppress UnresolvedMavenProperty -->
-                        <suiteXmlFile>${suites}.xml</suiteXmlFile>
+                        <suiteXmlFile>testng.xml</suiteXmlFile>
+                        <!--suiteXmlFile>${suites}.xml</suiteXmlFile-->
                     </suiteXmlFiles>
                 </configuration>
             </plugin>
