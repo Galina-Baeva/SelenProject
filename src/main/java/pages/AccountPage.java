@@ -28,6 +28,12 @@ public class AccountPage extends BasePage {
     @FindBy(xpath = "//table[@id='order-list']")
     protected WebElement orderTable;
 
+    @FindBy(xpath = "//*[@class='footable-toggle']")
+    protected WebElement orderDetails;
+
+    @FindBy(xpath = "//td[not(contains(@style,'display: none;'))]//a[@Title='Invoice']")
+    protected WebElement invoicePDF;
+
     public void editPersonalInfo() {
         personalInfo.click();
     }
@@ -52,4 +58,15 @@ public class AccountPage extends BasePage {
         return orderTable.isDisplayed();
     }
 
+    public void seeOrderDetails() {
+        orderDetails.click();
+    }
+
+    public void getInvoice() {
+        invoicePDF.click();
+    }
+
+    public WebElement getInvoicePDF() {
+        return invoicePDF;
+    }
 }
