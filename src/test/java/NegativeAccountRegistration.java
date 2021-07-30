@@ -5,10 +5,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 import pages.*;
 import testData.DataReader;
 
@@ -54,6 +51,11 @@ public class NegativeAccountRegistration {
     @AfterClass
     public void closeDriver() {
         driver.close();
+    }
+
+    @AfterSuite
+    public void quitDriver() {
+        driver.quit();
     }
 
     @Parameters({"path"})

@@ -48,6 +48,11 @@ public class PageElementsVerification {
         driver.close();
     }
 
+    @AfterSuite
+    public void quitDriver() {
+        driver.quit();
+    }
+
     @Test
     public void register() {
         logger.info("Test starts");

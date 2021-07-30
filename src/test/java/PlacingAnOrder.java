@@ -59,6 +59,11 @@ public class PlacingAnOrder {
         driver.close();
     }
 
+    @AfterSuite
+    public void quitDriver() {
+        driver.quit();
+    }
+
     @Parameters({"path"})
     @Test
     public void placingAnOrder(String path) throws IOException, ParseException {
