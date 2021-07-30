@@ -60,6 +60,11 @@ public class RegisterTest {
         accountPage.logOut();
     }
 
+    @AfterSuite
+    public void quitDriver() {
+        driver.quit();
+    }
+
     @Parameters({"path"})
     @Test
     public void register(String path) throws IOException, ParseException {

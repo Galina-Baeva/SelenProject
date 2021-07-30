@@ -1,1 +1,0 @@
-{"uuid":"742ca7eb-2a56-4572-b0ef-642f13e63508","name":"PlacingAnOrder","children":["d1e961aa-571d-4d60-a698-949beb86e233"],"befores":[{"name":"setUp","status":"passed","stage":"finished","description":"","steps":[],"attachments":[],"parameters":[],"start":1627541609231,"stop":1627541612973}],"afters":[],"links":[],"start":1627541609188,"stop":1627541638235}
