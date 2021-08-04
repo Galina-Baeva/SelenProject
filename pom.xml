@@ -76,13 +76,18 @@
                     <argLine>
                         -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"
                     </argLine>
-                    <parallel>all</parallel>
-                    <threadCountSuites>4</threadCountSuites>
                     <suiteXmlFiles>
-                        <!--suppress UnresolvedMavenProperty -->
-                        <suiteXmlFile>testng.xml</suiteXmlFile>
-                        <!--suiteXmlFile>${suites}.xml</suiteXmlFile-->
+                        <file>registration.xml</file>
+                        <file>negativeTests.xml</file>
+                        <file>pageVerification.xml</file>
+                        <file>placingOrder.xml</file>
                     </suiteXmlFiles>
+                    <properties>
+                        <property>
+                            <name>suitethreadpoolsize</name>
+                            <value>4</value>
+                        </property>
+                    </properties>
                 </configuration>
             </plugin>
             <plugin>

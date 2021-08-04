@@ -1,4 +1,5 @@
 import io.github.bonigarcia.wdm.WebDriverManager;
+import lombok.NonNull;
 import org.json.simple.parser.ParseException;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -28,8 +29,8 @@ public class RegisterTest {
     Long number;
     public static String email;
     FileInputStream fileInputStream;
-    Properties property;
-    String url;
+    @NonNull Properties property;
+    @NonNull String url;
     String urlAccountPage;
 
     private static final Logger logger = Logger.getLogger(RegisterTest.class.getName());
@@ -51,18 +52,13 @@ public class RegisterTest {
     }
 
     @AfterClass
-    public void closeDriver() {
-        driver.close();
+    public void quitDriver() {
+        driver.quit();
     }
 
     @AfterMethod
     public void logout() {
         accountPage.logOut();
-    }
-
-    @AfterSuite
-    public void quitDriver() {
-        driver.quit();
     }
 
     @Parameters({"path"})

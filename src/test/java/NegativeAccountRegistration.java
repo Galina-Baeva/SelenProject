@@ -49,11 +49,6 @@ public class NegativeAccountRegistration {
     }
 
     @AfterClass
-    public void closeDriver() {
-        driver.close();
-    }
-
-    @AfterSuite
     public void quitDriver() {
         driver.quit();
     }

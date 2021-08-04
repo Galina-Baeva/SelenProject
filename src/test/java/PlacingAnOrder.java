@@ -1,4 +1,5 @@
 import io.github.bonigarcia.wdm.WebDriverManager;
+import lombok.NonNull;
 import org.json.simple.parser.ParseException;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -32,8 +33,8 @@ public class PlacingAnOrder {
     Long number;
     String email;
     FileInputStream fileInputStream;
-    Properties property;
-    String url;
+    @NonNull Properties property;
+    @NonNull String url;
     String urlAccountPage;
 
     private static final Logger logger = Logger.getLogger(RegisterTest.class.getName());
@@ -55,11 +56,6 @@ public class PlacingAnOrder {
     }
 
     @AfterClass
-    public void closeDriver() {
-        driver.close();
-    }
-
-    @AfterSuite
     public void quitDriver() {
         driver.quit();
     }

@@ -6,6 +6,6 @@
         <suite-file path="negativeTests.xml"/>
         <suite-file path="pageVerification.xml"/>
         <suite-file path="placingOrder.xml"/>
-        <suite-file path="allTestSuite.xml"/>
+        <!--suite-file path="allTestSuite.xml"/-->
     </suite-files>
 </suite>

@@ -1,4 +1,5 @@
 import io.github.bonigarcia.wdm.WebDriverManager;
+import lombok.NonNull;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -23,8 +24,8 @@ public class PageElementsVerification {
     Long number;
     String email;
     FileInputStream fileInputStream;
-    Properties property;
-    String url;
+    @NonNull Properties property;
+    @NonNull String url;
 
     private static final Logger logger = Logger.getLogger(RegisterTest.class.getName());
 
@@ -44,11 +45,6 @@ public class PageElementsVerification {
     }
 
     @AfterClass
-    public void closeDriver() {
-        driver.close();
-    }
-
-    @AfterSuite
     public void quitDriver() {
         driver.quit();
     }
